@@ -11,7 +11,7 @@ class Home extends React.Component {
   }
   componentDidMount() {
     this.state.parser
-      .parseURL("http://joeroganexp.joerogan.libsynpro.com/rss")
+      .parseURL("https://verybadwizards.fireside.fm/rss")
       .then(feed => {
         this.setState({ feed });
       });
