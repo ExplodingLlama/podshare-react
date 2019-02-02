@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import ReactAudioPlayer from "react-audio-player";
+import ReactPlayer from "react-player";
 import Parser from "rss-parser";
 
 class ItemPage extends React.Component {
@@ -23,6 +23,13 @@ class ItemPage extends React.Component {
         console.log("error", err);
       });
   }
+  ref = player => {
+    this.player = player;
+  };
+
+  jumpToStart = () => {
+    this.player.seekTo(this.state.item.start_time);
+  };
   render() {
     return (
       <div
@@ -41,10 +48,13 @@ class ItemPage extends React.Component {
         >
           {this.state.feed.title}
         </div>
-        <ReactAudioPlayer
-          src={this.state.item.audio_link}
-          autoPlay={true}
+
+        <ReactPlayer
+          url={this.state.item.audio_link}
+          playing={true}
+          ref={this.ref}
           controls
+          onStart={this.jumpToStart}
         />
         <img src={this.state.feed.image.url} width={"10%"} height={"auto"} />
         <div>{this.state.feed.description}</div>
