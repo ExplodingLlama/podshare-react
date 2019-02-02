@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import ReactPlayer from "react-player";
+import ReactPlayer from "react-player/lib/players/FilePlayer";
 import Parser from "rss-parser";
 
 class ItemPage extends React.Component {
