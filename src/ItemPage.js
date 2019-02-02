@@ -53,6 +53,7 @@ class ItemPage extends React.Component {
           url={this.state.item.audio_link}
           playing={true}
           ref={this.ref}
+          width="90%"
           controls
           onStart={this.jumpToStart}
         />
