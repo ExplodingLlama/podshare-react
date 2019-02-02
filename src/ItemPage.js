@@ -5,19 +5,19 @@ import Parser from "rss-parser";
 
 class ItemPage extends React.Component {
   state = {
-    item: {},
-    feed: { image: {} }
+    item: {}
+    // feed: { image: {} }
   };
   componentDidMount() {
     axios
       .get(`/getLink/${this.props.itemId}`)
       .then(response => {
         this.setState({ item: response.data });
-        if (response.data.rss) {
-          new Parser().parseURL(response.data.rss).then(feed => {
-            this.setState({ feed });
-          });
-        }
+        // if (response.data.rss) {
+        //   new Parser().parseURL(response.data.rss).then(feed => {
+        //     this.setState({ feed });
+        //   });
+        // }
       })
       .catch(err => {
         console.log("error", err);
@@ -46,7 +46,7 @@ class ItemPage extends React.Component {
             paddingBottom: "32px"
           }}
         >
-          {this.state.feed.title}
+          {this.state.item.title}
         </div>
 
         <ReactPlayer
@@ -56,9 +56,6 @@ class ItemPage extends React.Component {
           controls
           onStart={this.jumpToStart}
         />
-        <img src={this.state.feed.image.url} width={"10%"} height={"auto"} />
-        <div>{this.state.feed.description}</div>
-        <div>{this.state.feed.copyright}</div>
       </div>
     );
   }
