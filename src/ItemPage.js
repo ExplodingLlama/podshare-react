@@ -41,7 +41,7 @@ class ItemPage extends React.Component {
       >
         <div
           style={{
-            fontWeight: "bold",
+            fontFamily: "Futura-Medium",
             fontSize: "50px",
             paddingBottom: "32px"
           }}

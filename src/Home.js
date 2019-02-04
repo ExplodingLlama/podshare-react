@@ -1,6 +1,8 @@
 import React from "react";
 import Parser from "rss-parser";
 import axios from "axios";
+import { withRouter } from "react-router-dom";
+import moment from "moment";
 
 class Home extends React.Component {
   constructor(props) {
@@ -20,22 +22,48 @@ class Home extends React.Component {
       this.setState({ podlinks: response.data });
     });
   }
+  gotoLink = id => {
+    this.props.history.push(`/${id}`);
+  };
   render() {
     return (
-      <div>
+      <div style={{ backgroundColor: "#eee", paddingBottom: "500px" }}>
         <img
           src={require("./resources/banner.png")}
           style={{ width: "100%" }}
         />
         <div style={{ margin: "20px" }}>
-          <div style={{ fontSize: "30px", padding: "10px" }}>
+          <div
+            style={{
+              fontFamily: "Futura-Medium",
+              fontSize: "30px",
+              padding: "10px"
+            }}
+          >
             Pod Linker lets you share your favourite podcast clips with your
             friends
           </div>
-          {this.state.podlinks.map(link => {
+          {this.state.podlinks.map((link, i) => {
+            const duration = moment(link.end_time - link.start_time).format(
+              "mm:ss"
+            );
             return (
-              <div key={link.id} style={{ padding: "10px" }}>
-                <a href={"/" + link.id}>{link.title}</a>
+              <div
+                key={link.id}
+                onClick={() => this.gotoLink(link.id)}
+                style={{
+                  padding: "20px",
+                  cursor: "pointer",
+                  borderWidth: "1px",
+                  borderStyle: "solid",
+                  borderRadius: "3px",
+                  borderColor: "#ccc",
+                  margin: "10px"
+                }}
+              >
+                <div style={{ fontFamily: "Futura-Medium", fontSize: "20px" }}>
+                  {`${i + 1}. ${link.title}  -  ${duration}`}
+                </div>
               </div>
             );
           })}
@@ -45,4 +73,4 @@ class Home extends React.Component {
   }
 }
 
-export default Home;
+export default withRouter(Home);
