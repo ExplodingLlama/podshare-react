@@ -22,18 +22,24 @@ class Home extends React.Component {
   }
   render() {
     return (
-      <div style={{ margin: "20px" }}>
-        <div style={{ fontSize: "30px", padding: "10px" }}>
-          Pod Linker lets you share your favourite podcast clips with your
-          friends
+      <div>
+        <img
+          src={require("./resources/banner.png")}
+          style={{ width: "100%" }}
+        />
+        <div style={{ margin: "20px" }}>
+          <div style={{ fontSize: "30px", padding: "10px" }}>
+            Pod Linker lets you share your favourite podcast clips with your
+            friends
+          </div>
+          {this.state.podlinks.map(link => {
+            return (
+              <div key={link.id} style={{ padding: "10px" }}>
+                <a href={"/" + link.id}>{link.title}</a>
+              </div>
+            );
+          })}
         </div>
-        {this.state.podlinks.map(link => {
-          return (
-            <div style={{ padding: "10px" }}>
-              <a href={"/" + link.id}>{link.title}</a>
-            </div>
-          );
-        })}
       </div>
     );
   }
