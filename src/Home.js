@@ -44,9 +44,9 @@ class Home extends React.Component {
             friends
           </div>
           {this.state.podlinks.map((link, i) => {
-            const duration = moment(link.end_time - link.start_time).format(
-              "mm:ss"
-            );
+            const duration = moment
+              .utc((link.end_time - link.start_time) * 1000)
+              .format("mm:ss");
             return (
               <div
                 key={link.id}
