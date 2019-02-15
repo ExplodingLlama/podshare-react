@@ -3,6 +3,13 @@ import Parser from "rss-parser";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
 import moment from "moment";
+import {
+  Button,
+  FormattedTime,
+  PlayerIcon,
+  Slider,
+  Direction
+} from "react-player-controls";
 
 class Home extends React.Component {
   constructor(props) {
