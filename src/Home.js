@@ -3,36 +3,36 @@ import Parser from "rss-parser";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
 import moment from "moment";
-import {
-  Button,
-  FormattedTime,
-  PlayerIcon,
-  Slider,
-  Direction
-} from "react-player-controls";
+import AudioPlayer from "react-h5-audio-player-bonobo";
+import "react-h5-audio-player-bonobo/lib/styles.css";
 
 class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       parser: new Parser(),
-      podlinks: []
+      podLinks: [],
+      currentClip: 1
     };
   }
   componentDidMount() {
-    // this.state.parser
-    //   .parseURL("https://verybadwizards.fireside.fm/rss")
-    //   .then(feed => {
-    //     this.setState({ feed });
-    //   });
     axios.get("/getAllLinks").then(response => {
-      this.setState({ podlinks: response.data });
+      this.setState({ podLinks: response.data });
     });
   }
-  gotoLink = id => {
-    this.props.history.push(`/${id}`);
+  gotoLink = i => {
+    // this.props.history.push(`/${id}`);
+    this.setState({ currentClip: i });
   };
   render() {
+    const clip =
+      (this.state.podLinks && this.state.podLinks[this.state.currentClip]) ||
+      {};
+    const src = clip.start_time
+      ? `${
+          clip.audio_link
+        }#t=${clip.start_time.toString()},${clip.end_time.toString()}`
+      : clip.audio_link;
     return (
       <div style={{ backgroundColor: "#eee", paddingBottom: "500px" }}>
         <img
@@ -50,14 +50,14 @@ class Home extends React.Component {
             Pod Linker lets you share your favourite podcast clips with your
             friends
           </div>
-          {this.state.podlinks.map((link, i) => {
+          {this.state.podLinks.map((link, i) => {
             const duration = moment
               .utc((link.end_time - link.start_time) * 1000)
               .format("mm:ss");
             return (
               <div
                 key={link.id}
-                onClick={() => this.gotoLink(link.id)}
+                onClick={() => this.gotoLink(i)}
                 style={{
                   padding: "20px",
                   cursor: "pointer",
@@ -74,6 +74,20 @@ class Home extends React.Component {
               </div>
             );
           })}
+          <div
+            style={{
+              position: "fixed",
+              left: "0",
+              bottom: "0",
+              width: "100%"
+            }}
+          >
+            <AudioPlayer
+              src={src}
+              startTime={clip.start_time}
+              endTime={clip.end_time}
+            />
+          </div>
         </div>
       </div>
     );
